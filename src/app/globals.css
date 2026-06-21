@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+section[id] {
+  scroll-margin-top: 96px;
+}
+
+.nav-focus-blur {
+  filter: blur(2px) saturate(0.82) brightness(0.72);
+  opacity: 0.38;
+  transform: scale(0.992);
+  pointer-events: none;
+  user-select: none;
+  transition: filter 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-focus-target {
+  filter: none;
+  opacity: 1;
+  transform: none;
+  position: relative;
+  z-index: 41;
+  transition: filter 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+main[data-nav-focus="contacto"] #contacto.nav-focus-target {
+  justify-content: center;
+  gap: 48px;
+}
+
+main[data-nav-focus="contacto"] #contacto.nav-focus-target > div {
+  text-align: center;
+}
+
+main[data-nav-focus="contacto"] #contacto.nav-focus-target > div > p {
+  color: rgb(179 179 179);
+}
+
+main[data-nav-focus] {
+  position: relative;
+}
+
+main[data-nav-focus] {
+  --spotlight-y: 30%;
+}
+
+main[data-nav-focus]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  opacity: 1;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.84) 0%,
+      rgba(0, 0, 0, 0.68) calc(var(--spotlight-y) - 28%),
+      rgba(255, 255, 255, 0.04) calc(var(--spotlight-y) - 10%),
+      rgba(255, 255, 255, 0.05) var(--spotlight-y),
+      rgba(255, 255, 255, 0.04) calc(var(--spotlight-y) + 10%),
+      rgba(0, 0, 0, 0.68) calc(var(--spotlight-y) + 28%),
+      rgba(0, 0, 0, 0.84) 100%
+    ),
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(255, 255, 255, 0.03) 50%,
+      rgba(0, 0, 0, 0.9) 100%
+    );
+  backdrop-filter: blur(2px) saturate(0.8);
+  -webkit-backdrop-filter: blur(2px) saturate(0.8);
+  transition: background 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.65s ease;
+}
+
+@media (max-width: 768px) {
+  .nav-focus-blur {
+    filter: blur(1px) saturate(0.86) brightness(0.78);
+    opacity: 0.46;
+  }
+
+  main[data-nav-focus]::before {
+    backdrop-filter: blur(1px) saturate(0.85);
+    -webkit-backdrop-filter: blur(1px) saturate(0.85);
+  }
+}
+
+::selection { background: #fff; color: #000; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+
+
+
+
