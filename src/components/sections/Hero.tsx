@@ -38,7 +38,7 @@ export default function Hero() {
       <div className="flex justify-between items-start px-12 pt-40 pb-20 gap-12">
         {/* LEFT */}
         <div className="max-w-[460px] lg:max-w-[570px]">
-          <p className="hero-location text-[12px] text-gray-400 tracking-[0.3px] mb-6">
+          <p className="hero-location text-[12px] text-gray-200 tracking-[0.3px] mb-6">
             {personal.location}
           </p>
 
@@ -51,7 +51,7 @@ export default function Hero() {
             {personal.role}
           </h2>
 
-          <p className="hero-desc text-[14px] text-gray-300 leading-[1.75] mb-9 max-w-[400px] lg:max-w-[570px]">
+          <p className="hero-desc text-[14px] text-gray-200 leading-[1.75] mb-9 max-w-[400px] lg:max-w-[570px]">
             {personal.description}
           </p>
 
@@ -79,7 +79,7 @@ export default function Hero() {
             <div className="w-[60px] h-[60px] rounded-full bg-gray-700 border border-gray-500 flex items-center justify-center text-[20px] font-light text-gray-300">
               {personal.name[0]}
             </div>
-            <span className="text-[11px] text-gray-400">Tu foto aquí</span>
+            <span className="text-[11px] text-gray-200">Tu foto aquí</span>
           </div>
 
           {/* Code snippet */}
@@ -96,7 +96,7 @@ export default function Hero() {
 
 function CodeSnippet({ name }: { name: string }) {
   return (
-    <div className="w-full rounded-xl bg-gray-950 border border-gray-600 p-5 font-mono text-[12px] leading-[1.8]">
+    <div className="w-full rounded-xl bg-gray-950 border border-gray-600 p-5 font-mono text-[12px] leading-[1.8]" aria-hidden="true">
       {/* Dots */}
       <div className="flex gap-[6px] mb-4">
         {["bg-gray-600", "bg-gray-600", "bg-gray-600"].map((c, i) => (

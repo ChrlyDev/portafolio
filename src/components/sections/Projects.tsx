@@ -28,10 +28,10 @@ export default function Projects() {
   return (
     <section ref={sectionRef} id="proyectos" className="px-12 py-16 border-y border-gray-600">
       <div className="flex justify-between items-baseline mb-10">
-        <span className="text-[11px] text-gray-400 uppercase tracking-[1px]">
+        <span className="text-[11px] text-gray-200 uppercase tracking-[1px]">
           Proyectos seleccionados
         </span>
-        <span className="text-[12px] text-gray-400 cursor-pointer hover:text-white transition-colors">
+        <span className="text-[12px] text-gray-200 cursor-pointer hover:text-white transition-colors">
           Ver todos →
         </span>
       </div>
@@ -43,7 +43,7 @@ export default function Projects() {
             className={`project-card bg-black p-8 flex flex-col gap-4 hover:bg-gray-900 transition-colors cursor-pointer group ${project.featured ? "col-span-2 bg-gray-950" : ""
               }`}
           >
-            <span className="text-[10px] text-gray-400 uppercase tracking-[0.5px]">
+            <span className="text-[10px] text-gray-200 uppercase tracking-[0.5px]">
               {project.tag}
             </span>
 
@@ -54,7 +54,7 @@ export default function Projects() {
               {project.title}
             </h3>
 
-            <p className="text-[13px] text-gray-300 leading-[1.6] flex-1">
+            <p className="text-[13px] text-gray-200 leading-[1.6] flex-1">
               {project.description}
             </p>
 
@@ -62,7 +62,7 @@ export default function Projects() {
               {project.stack.map((tech) => (
                 <span
                   key={tech}
-                  className="text-[10px] text-gray-400 border border-gray-600 rounded-full px-[10px] py-[3px]"
+                  className="text-[10px] text-gray-200 border border-gray-600 rounded-full px-[10px] py-[3px]"
                 >
                   {tech}
                 </span>

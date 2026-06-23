@@ -26,6 +26,7 @@ export default function Navbar() {
         if (element === nav) return;
 
         element.classList.remove("nav-focus-blur", "nav-focus-target");
+        element.removeAttribute("inert");
       });
     };
 
@@ -55,6 +56,14 @@ export default function Navbar() {
 
         element.classList.toggle("nav-focus-blur", shouldBlur);
         element.classList.toggle("nav-focus-target", !shouldBlur);
+
+        // Blurred sections must be inert so keyboard/AT users can't reach
+        // focusable children that are visually obscured.
+        if (shouldBlur) {
+          element.setAttribute("inert", "");
+        } else {
+          element.removeAttribute("inert");
+        }
       });
 
       window.clearTimeout(focusTimer);

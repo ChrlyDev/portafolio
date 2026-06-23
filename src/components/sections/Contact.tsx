@@ -10,7 +10,7 @@ export function Contact() {
         <h2 className="text-[32px] font-light tracking-tightest text-white mb-2">
           ¿Trabajamos juntos?
         </h2>
-        <p className="text-[14px] text-gray-400">
+        <p className="text-[14px] text-gray-200">
           Abierto a proyectos freelance y oportunidades laborales.
         </p>
       </div>
@@ -28,7 +28,7 @@ export function Contact() {
 export function Footer() {
   return (
     <footer className="px-12 py-5 flex justify-between items-center border-t border-gray-800">
-      <span className="text-[11px] text-gray-500">
+      <span className="text-[11px] text-gray-200">
         © {new Date().getFullYear()} {personal.name}. {personal.location}.
       </span>
       <div className="flex gap-5">
@@ -42,7 +42,7 @@ export function Footer() {
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[11px] text-gray-500 hover:text-white transition-colors"
+            className="text-[11px] text-gray-200 hover:text-white transition-colors"
           >
             {link.label}
           </a>

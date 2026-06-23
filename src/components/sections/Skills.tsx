@@ -43,7 +43,7 @@ export default function Skills() {
   return (
     <section ref={sectionRef} id="habilidades" className="px-12 py-16 border-b border-gray-600">
       <div className="flex justify-between items-baseline mb-10">
-        <span className="text-[11px] text-gray-400 uppercase tracking-[1px]">
+        <span className="text-[11px] text-gray-200 uppercase tracking-[1px]">
           Habilidades
         </span>
       </div>
@@ -51,9 +51,9 @@ export default function Skills() {
       <div className="skills-grid grid grid-cols-4 gap-[1px] bg-gray-700 rounded-xl overflow-hidden border border-gray-600">
         {skills.map((skill) => (
           <div key={skill.name} className="skill-block bg-black p-6">
-            <div className="text-[18px] text-gray-400 mb-3 font-mono">{skill.icon}</div>
+            <div className="text-[18px] text-gray-200 mb-3 font-mono">{skill.icon}</div>
             <div className="text-[13px] text-white mb-1">{skill.name}</div>
-            <div className="text-[11px] text-gray-500 mb-3">{skill.level}</div>
+            <div className="text-[11px] text-gray-200 mb-3">{skill.level}</div>
             <div className="h-[2px] bg-gray-700 rounded-full">
               <div
                 className="skill-bar-fill h-[2px] bg-white rounded-full"

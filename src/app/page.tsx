@@ -6,13 +6,15 @@ import { Contact, Footer } from "@/components/sections/Contact";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <>
       <Navbar />
-      <Hero />
-      <Projects />
-      <Skills />
-      <Contact />
+      <main className="min-h-screen bg-black text-white">
+        <Hero />
+        <Projects />
+        <Skills />
+        <Contact />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }
