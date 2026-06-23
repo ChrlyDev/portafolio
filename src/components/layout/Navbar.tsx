@@ -106,6 +106,7 @@ export default function Navbar() {
     window.addEventListener("wheel", onFocusClearIntent, { passive: true });
     window.addEventListener("touchstart", onFocusClearIntent, { passive: true });
     window.addEventListener("keydown", onFocusClearIntent);
+    nav?.addEventListener("click", onNavClick);
     main?.addEventListener("click", onNavClick);
 
     return () => {
@@ -115,6 +116,7 @@ export default function Navbar() {
       window.removeEventListener("wheel", onFocusClearIntent);
       window.removeEventListener("touchstart", onFocusClearIntent);
       window.removeEventListener("keydown", onFocusClearIntent);
+      nav?.removeEventListener("click", onNavClick);
       main?.removeEventListener("click", onNavClick);
       clearFocus();
     };
