@@ -4,7 +4,7 @@ export const personal = {
   role: "Developer & Systems Engineer",
   location: "Bogotá · Colombia",
   description:
-    "Estudiante de Ingeniería de Sistemas en Konrad Lorenz. He construido software real para una empresa constructora en Bogotá. Me interesan los datos, la IA aplicada y el frontend que no parece frontend.",
+    "Ingeniero de Sistemas que resuelve problemas reales con stack completo y ganas de seguir creciendo.",
   email: "carlos@email.com",
   github: "https://github.com/ChrlyDev",
   linkedin: "https://linkedin.com/in/carlos",

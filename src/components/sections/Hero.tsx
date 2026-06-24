@@ -51,7 +51,7 @@ export default function Hero() {
             {personal.role}
           </h2>
 
-          <p className="hero-desc text-[14px] text-gray-200 leading-[1.75] mb-9 max-w-[400px] lg:max-w-[570px]">
+          <p className="hero-desc text-[18px] text-gray-300 leading-[1.7] mb-9 pl-4 border-l border-gray-600 max-w-[460px] lg:max-w-[570px]">
             {personal.description}
           </p>
 
