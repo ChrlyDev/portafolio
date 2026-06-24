@@ -12,6 +12,7 @@ export default function Navbar() {
     let focusTimer: number | undefined;
     let focusActive = false;
     let focusLocked = false;
+    let spotlightUpdater: (() => void) | null = null;
 
     const mainChildren = () => Array.from(main?.children ?? []);
 
@@ -20,6 +21,11 @@ export default function Navbar() {
 
       focusActive = false;
       focusLocked = false;
+
+      if (spotlightUpdater) {
+        window.removeEventListener("scroll", spotlightUpdater);
+        spotlightUpdater = null;
+      }
 
       main?.removeAttribute("data-nav-focus");
       mainChildren().forEach((element) => {
@@ -35,6 +41,10 @@ export default function Navbar() {
 
       if (!main || !target) return;
 
+      if (spotlightUpdater) {
+        window.removeEventListener("scroll", spotlightUpdater);
+      }
+
       focusActive = true;
       focusLocked = true;
       main.setAttribute("data-nav-focus", targetId);
@@ -46,6 +56,7 @@ export default function Navbar() {
         main?.style.setProperty("--spotlight-y", `${centerYPercent}%`);
       };
 
+      spotlightUpdater = updateSpotlight;
       updateSpotlight();
       window.addEventListener("scroll", updateSpotlight);
 
@@ -69,11 +80,34 @@ export default function Navbar() {
       window.clearTimeout(focusTimer);
       focusTimer = window.setTimeout(() => {
         focusLocked = false;
-        window.removeEventListener("scroll", updateSpotlight);
+        if (spotlightUpdater === updateSpotlight) {
+          window.removeEventListener("scroll", updateSpotlight);
+          spotlightUpdater = null;
+        }
       }, 1100);
     };
 
     const onScroll = () => setScrolled(window.scrollY > 40);
+
+    const syncFocusFromHash = () => {
+      const hash = window.location.hash.slice(1);
+
+      if (!hash) {
+        clearFocus();
+        return;
+      }
+
+      const targetId = decodeURIComponent(hash);
+
+      if (!document.getElementById(targetId)) {
+        clearFocus();
+        return;
+      }
+
+      window.requestAnimationFrame(() => {
+        applyFocus(targetId);
+      });
+    };
 
     const onFocusClearIntent = () => {
       if (focusActive && !focusLocked) {
@@ -106,8 +140,11 @@ export default function Navbar() {
     window.addEventListener("wheel", onFocusClearIntent, { passive: true });
     window.addEventListener("touchstart", onFocusClearIntent, { passive: true });
     window.addEventListener("keydown", onFocusClearIntent);
+    window.addEventListener("hashchange", syncFocusFromHash);
     nav?.addEventListener("click", onNavClick);
     main?.addEventListener("click", onNavClick);
+    onScroll();
+    syncFocusFromHash();
 
     return () => {
       window.clearTimeout(focusTimer);
@@ -116,6 +153,7 @@ export default function Navbar() {
       window.removeEventListener("wheel", onFocusClearIntent);
       window.removeEventListener("touchstart", onFocusClearIntent);
       window.removeEventListener("keydown", onFocusClearIntent);
+      window.removeEventListener("hashchange", syncFocusFromHash);
       nav?.removeEventListener("click", onNavClick);
       main?.removeEventListener("click", onNavClick);
       clearFocus();
