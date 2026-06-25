@@ -19,7 +19,7 @@ export function Contact() {
         href={`mailto:${personal.email}`}
         className="text-[14px] font-medium bg-white text-black px-8 py-4 rounded-full hover:bg-gray-100 transition-colors whitespace-nowrap"
       >
-        Escribirme →
+        Escríbeme →
       </a>
     </section>
   );

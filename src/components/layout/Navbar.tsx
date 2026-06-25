@@ -115,6 +115,16 @@ export default function Navbar() {
       }
     };
 
+    const scrollToSectionCenter = (target: HTMLElement) => {
+      const rect = target.getBoundingClientRect();
+      const absoluteTop = window.scrollY + rect.top;
+      const viewportCenterOffset = (window.innerHeight - rect.height) / 2;
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      const desiredTop = Math.min(Math.max(absoluteTop - viewportCenterOffset, 0), maxScroll);
+
+      window.scrollTo({ top: desiredTop, behavior: "smooth" });
+    };
+
     const onNavClick = (event: MouseEvent) => {
       const link = (event.target as HTMLElement | null)?.closest("a[href^='#']");
 
@@ -130,7 +140,7 @@ export default function Navbar() {
       if (!target) return;
 
       event.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      scrollToSectionCenter(target);
       history.replaceState(null, "", href);
       applyFocus(targetId);
     };
@@ -165,12 +175,12 @@ export default function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 grid grid-cols-[1fr_auto_1fr] items-center px-12 py-5 transition-all duration-300 bg-black/90 backdrop-blur-md ${scrolled ? "border-b border-gray-600" : ""
         }`}
     >
-      <span className="text-[15px] font-medium tracking-tight text-white justify-self-start">
+      <a href="#inicio" className="text-[15px] font-medium tracking-tight text-white justify-self-start">
         {personal.name}.
-      </span>
+      </a>
 
       <div className="flex gap-8 justify-self-center">
-        {["Sobre mí", "Proyectos", "Habilidades"].map((item) => (
+        {["Experiencia", "Proyectos", "Habilidades", "Sobre mí"].map((item) => (
           <a
             key={item}
             href={`#${item.toLowerCase().replace(" ", "-").replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u")}`}

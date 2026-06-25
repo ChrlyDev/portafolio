@@ -1,10 +1,17 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { personal, stats } from "@/lib/data";
 import { TechStrip, Stats } from "./Strips";
 
+const CV_PATH = "/cv.pdf";
+const PHOTO_PATH: string | null = "/photo.webp";
+
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [isCvOpen, setIsCvOpen] = useState(false);
+  const [photoLoadFailed, setPhotoLoadFailed] = useState(false);
+
+  const showPhoto = Boolean(PHOTO_PATH) && !photoLoadFailed;
 
   useEffect(() => {
     const init = async () => {
@@ -29,10 +36,43 @@ export default function Hero() {
     init();
   }, []);
 
+  useEffect(() => {
+    if (!isCvOpen) {
+      document.body.style.overflow = "";
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsCvOpen(false);
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isCvOpen]);
+
+  const handlePrintCv = () => {
+    const printWindow = window.open(CV_PATH, "_blank", "noopener,noreferrer");
+
+    if (!printWindow) {
+      return;
+    }
+
+    printWindow.addEventListener("load", () => {
+      printWindow.print();
+    }, { once: true });
+  };
+
   return (
     <section
       ref={sectionRef}
-      id="sobre-mi"
+      id="inicio"
       className="border-b border-gray-600"
     >
       <div className="flex justify-between items-start px-12 pt-40 pb-20 gap-12">
@@ -62,24 +102,42 @@ export default function Hero() {
             >
               Ver proyectos
             </a>
-            <a
-              href="/cv.pdf"
-              target="_blank"
+            <button
+              type="button"
+              onClick={() => setIsCvOpen(true)}
               className="text-[13px] text-gray-200 border border-gray-500 px-6 py-[11px] rounded-full hover:border-gray-400 hover:text-white transition-all"
             >
-              Descargar CV
-            </a>
+              Ver CV
+            </button>
           </div>
         </div>
 
         {/* RIGHT */}
         <div className="hero-right flex flex-col gap-3 flex-1 pt-1 min-w-[240px] max-w-[300px]">
           {/* Photo */}
-          <div className="w-full h-[180px] rounded-xl bg-gray-900 border border-gray-600 flex flex-col items-center justify-center gap-2">
-            <div className="w-[60px] h-[60px] rounded-full bg-gray-700 border border-gray-500 flex items-center justify-center text-[20px] font-light text-gray-300">
-              {personal.name[0]}
-            </div>
-            <span className="text-[11px] text-gray-200">Tu foto aquí</span>
+          <div
+            className={`w-full h-[180px] rounded-xl border border-gray-600 overflow-hidden ${showPhoto
+              ? "bg-black p-2"
+              : "bg-gray-900 flex flex-col items-center justify-center gap-2"
+              }`}
+          >
+            {showPhoto ? (
+              <div className="h-full w-full overflow-hidden rounded-lg flex justify-center">
+                <img
+                  src={PHOTO_PATH ?? undefined}
+                  alt={`${personal.name} ${personal.lastName}`}
+                  className="w-fit h-[250px] object-cover object-top"
+                  onError={() => setPhotoLoadFailed(true)}
+                />
+              </div>
+            ) : (
+              <>
+                <div className="w-[60px] h-[60px] rounded-full bg-gray-700 border border-gray-500 flex items-center justify-center text-[20px] font-light text-gray-300">
+                  {personal.name[0]}
+                </div>
+                <span className="text-4 text-gray-200">Tu foto aquí</span>
+              </>
+            )}
           </div>
 
           {/* Code snippet */}
@@ -90,57 +148,119 @@ export default function Hero() {
       <TechStrip />
       <Stats />
 
+      {isCvOpen ? (
+        <div
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/80 px-4 py-6 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cv-modal-title"
+          onClick={() => setIsCvOpen(false)}
+        >
+          <div
+            className="flex h-[min(88vh,920px)] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-gray-700 bg-neutral-950 shadow-2xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-center justify-between gap-4 border-b border-gray-800 px-5 py-4">
+              <div>
+                <p id="cv-modal-title" className="text-sm font-medium text-white">
+                  Curriculum Vitae
+                </p>
+                <p className="text-xs text-gray-400">
+                  Vista previa dentro de la pagina con comandos de descarga e impresion.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <a
+                  href={CV_PATH}
+                  download
+                  className="rounded-full border border-gray-700 px-4 py-2 text-xs text-gray-200 transition-colors hover:border-gray-500 hover:text-white"
+                >
+                  Descargar
+                </a>
+                <button
+                  type="button"
+                  onClick={handlePrintCv}
+                  className="rounded-full border border-gray-700 px-4 py-2 text-xs text-gray-200 transition-colors hover:border-gray-500 hover:text-white"
+                >
+                  Imprimir
+                </button>
+                <a
+                  href={CV_PATH}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full border border-gray-700 px-4 py-2 text-xs text-gray-200 transition-colors hover:border-gray-500 hover:text-white"
+                >
+                  Abrir en otra pestaña
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setIsCvOpen(false)}
+                  className="rounded-full bg-white px-4 py-2 text-xs font-medium text-black transition-colors hover:bg-gray-100"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+
+            <div className="flex-1 bg-black p-3 sm:p-4">
+              <iframe
+                src={`${CV_PATH}#toolbar=0&navpanes=0&scrollbar=1`}
+                title="Vista previa del CV"
+                className="h-full w-full rounded-xl border border-gray-800 bg-white"
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
+
     </section>
   );
 }
 
 function CodeSnippet({ name }: { name: string }) {
   return (
-    <div className="w-full rounded-xl bg-gray-950 border border-gray-600 p-5 font-mono text-[12px] leading-[1.8]" aria-hidden="true">
-      {/* Dots */}
+    <div className="w-full rounded-xl bg-gray-950 border border-gray-600 p-5 font-mono text-[12px] leading-[1.8]">
       <div className="flex gap-[6px] mb-4">
-        {["bg-gray-600", "bg-gray-600", "bg-gray-600"].map((c, i) => (
-          <div key={i} className={`w-[10px] h-[10px] rounded-full ${c}`} />
+        {[0, 1, 2].map(i => (
+          <div key={i} className="w-[10px] h-[10px] rounded-full bg-gray-600" />
         ))}
       </div>
-
-      <span className="text-gray-500">{"// carlos.config.js"}</span>
-      <br />
-      <br />
+      <span className="text-gray-500">{"// carlos.js"}</span><br /><br />
       <span className="text-gray-400">{"const "}</span>
-      <span className="text-gray-200">{"developer"}</span>
-      <span className="text-gray-500">{" = {"}</span>
-      <br />
-      <span className="text-gray-500">{"  "}</span>
-      <span className="text-gray-300">{"name"}</span>
+      <span className="text-gray-200">{"carlos"}</span>
+      <span className="text-gray-500">{" = {"}</span><br />
+      <span className="text-gray-300">{"  role"}</span>
       <span className="text-gray-500">{": "}</span>
-      <span className="text-gray-400">{`"${name}"`}</span>
-      <span className="text-gray-500">{","}</span>
-      <br />
+      <span className="text-gray-400">{"\"developer\""}</span>
+      <span className="text-gray-500">{","}</span><br />
       <span className="text-gray-300">{"  stack"}</span>
       <span className="text-gray-500">{": ["}</span>
       <span className="text-gray-400">{"\"React\", \"Node\", \"Python\""}</span>
-      <span className="text-gray-500">{"],"}</span>
-      <br />
-      <span className="text-gray-300">{"  focus"}</span>
-      <span className="text-gray-500">{": ["}</span>
-      <span className="text-gray-400">{"\"AI\", \"Data\", \"APIs\""}</span>
-      <span className="text-gray-500">{"],"}</span>
-      <br />
+      <span className="text-gray-500">{"],"}</span><br />
+      <span className="text-gray-300">{"  fuel"}</span>
+      <span className="text-gray-500">{": "}</span>
+      <span className="text-gray-400">{"\"coffee\""}</span>
+      <span className="text-gray-500">{",  "}</span>
+      <span className="text-gray-600">{"// siempre"}</span><br />
+      <span className="text-gray-300">{"  debugging_buddy"}</span>
+      <span className="text-gray-500">{": "}</span>
+      <span className="text-gray-400">{"\"cat\""}</span>
+      <span className="text-gray-500">{","}</span><br />
+      <span className="text-gray-300">{"  offline"}</span>
+      <span className="text-gray-500">{": "}</span>
+      <span className="text-gray-400">{"\"gym\""}</span>
+      <span className="text-gray-500">{","}</span><br />
       <span className="text-gray-300">{"  location"}</span>
       <span className="text-gray-500">{": "}</span>
       <span className="text-gray-400">{"\"Bogotá, CO\""}</span>
-      <span className="text-gray-500">{","}</span>
-      <br />
-      <span className="text-gray-300">{"  open"}</span>
+      <span className="text-gray-500">{","}</span><br />
+      <span className="text-gray-300">{"  open_to_work"}</span>
       <span className="text-gray-500">{": "}</span>
-      <span className="text-gray-200">{"true"}</span>
-      <br />
-      <span className="text-gray-500">{"}"}</span>
-      <br />
-      <br />
+      <span className="text-gray-200">{"true"}</span><br />
+      <span className="text-gray-500">{"}"}</span><br /><br />
       <span className="text-gray-400">{"export default "}</span>
-      <span className="text-gray-200">{"developer"}</span>
+      <span className="text-gray-200">{"carlos"}</span>
       <span className="text-gray-500">{";"}</span>
       <CursorBlink />
     </div>

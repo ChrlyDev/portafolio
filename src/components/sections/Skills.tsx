@@ -43,7 +43,7 @@ export default function Skills() {
   return (
     <section ref={sectionRef} id="habilidades" className="px-12 py-16 border-b border-gray-600">
       <div className="flex justify-between items-baseline mb-10">
-        <span className="text-[11px] text-gray-200 uppercase tracking-[1px]">
+        <span className="text-4 text-gray-200 uppercase tracking-[1px]">
           Habilidades
         </span>
       </div>

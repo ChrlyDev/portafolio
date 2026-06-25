@@ -7,7 +7,7 @@ export function TechStrip() {
     <div className="flex items-center px-12 py-3 border-b border-gray-600 overflow-hidden">
       {techStrip.map((tech, i) => (
         <span key={tech} className="flex items-center">
-          <span className="text-[11px] text-gray-200 uppercase tracking-[0.5px] whitespace-nowrap mr-8">
+          <span className="text-4 text-gray-200 uppercase tracking-[0.5px] whitespace-nowrap mr-8">
             {tech}
           </span>
           {i < techStrip.length - 1 && (

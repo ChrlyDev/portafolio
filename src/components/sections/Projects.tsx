@@ -26,9 +26,9 @@ export default function Projects() {
   });
 
   return (
-    <section ref={sectionRef} id="proyectos" className="px-12 py-16 border-y border-gray-600">
+    <section ref={sectionRef} id="proyectos" className="px-12 py-16 border-b border-gray-600">
       <div className="flex justify-between items-baseline mb-10">
-        <span className="text-[11px] text-gray-200 uppercase tracking-[1px]">
+        <span className="text-4 text-gray-200 uppercase tracking-[1px]">
           Proyectos seleccionados
         </span>
         <span className="text-[12px] text-gray-200 cursor-pointer hover:text-white transition-colors">

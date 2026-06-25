@@ -16,6 +16,31 @@ export const stats = [
   { number: "1", label: "Cliente real activo" },
 ];
 
+export const experience = [
+  {
+    id: "sur",
+    role: "Desarrollador Full-Stack",
+    company: "SUR",
+    startDate: "2025-04",
+    endDate: null,
+    current: true,
+    description:
+      "Desarrollé una plataforma web full-stack multi-tenant para la gestión financiera de proyectos de construcción. El sistema centraliza pagos, ingresos, reservas, presupuestos, soportes documentales y facturación electrónica DIAN. Incluye analítica financiera en tiempo real y modelos predictivos para proyectar el comportamiento de proyectos arquitectónicos. Integra IA para extracción automática de datos desde facturas y conciliación financiera.",
+    stack: ["React", "Node.js", "MySQL", "Railway", "Tailwind"],
+  },
+  {
+    id: "mango",
+    role: "Freelancer Junior — Frontend & Backend Developer",
+    company: "Mango Tecnolo",
+    startDate: "2024-06",
+    endDate: "2025-01",
+    current: false,
+    description:
+      "Desarrollé un sistema de ventas con base de datos para consultar y gestionar productos, vendido a negocios dedicados a la facturación. Colaboré en la instalación y capacitación del software en equipos. Fomenté buenas prácticas y mejoré la estética y rendimiento del sistema respecto a versiones anteriores.",
+    stack: ["PHP", "JavaScript", "MySQL", "Bootstrap"],
+  },
+];
+
 export const projects = [
   {
     id: "sur",
